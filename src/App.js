@@ -5,8 +5,27 @@ import './App.css';
 class App extends Component {
   render() {
     const name = '리랴릭서';
+    const style = {
+      backgroundColor: 'aqua',
+      padding: '1rem',
+      color: 'blue',
+      fontSize: '1rem'
+    }
     return (
       <Fragment>
+        <div style={style}>
+          {
+            1 + 1 === 2
+              ? ('맞아 ')
+              : ('틀려')
+          }
+          {
+            (() =>{
+              if(name === '리랴릭서') return (<div className="App">리랴릭서가맞다</div>);
+              if(name === '리리리리') return ('땡');  
+            })()
+          }
+        </div>
         <div className="App">
           <input type='text' value={name}/>
           <header className="App-header">
