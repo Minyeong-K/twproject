@@ -1,43 +1,80 @@
 import React, {Component, Fragment} from 'react';
-import logo from './logo.svg';
 import './App.css';
+import TodoListTemplate from './components/TodoListTemplate';
+import Form from './components/Form';
+import TodoItemList from './components/TodoItemList';
 
 class App extends Component {
-  render() {
-    const name = '리랴릭서';
-    const style = {
-      backgroundColor: 'aqua',
-      padding: '1rem',
-      color: 'blue',
-      fontSize: '1rem'
+
+  id = 3 // 이미 0,1,2 가 존재해? 그래서 3?
+
+  (...)
+
+  handleToggle = (id) => {
+    const {todos} = this.state;
+
+    // 파라미터로 받은 아이디를 가지고 몇번째 아이템인지 찾습니다.
+    const index = todos.findIndex(todo => todo.id === id);
+    const selected = todos[index]; // 선택한 객체
+
+    const nextTodos = [...todos]; // 배열을복사
+
+  }
+
+  state = {
+    input: '',
+    todos: [
+      { id: 0, text: ' 리액트 소개', checked:false },
+      { id: 1, text: ' 리액트 소개', checked:true },
+      { id: 2, text: ' 리액트 소개', checked:false },
+    ]
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      input: e.target.value // 인풋의 다음 바뀔 값
+    });
+  }
+
+  handleCreate = () => {
+    const { input, todos } = this.state;
+    this.setState({
+      input: '흠', // 인풋을 비우고
+      // concat을 사용하여 배열에 추가
+      todos: todos.concat({
+        id: this.id++,
+        text: input,
+        checked: false
+      })
+    });
+  }
+
+  handleKeyPress = (e) => {
+    // 눌려진 키가 엔터면 핸들러크리에이트 호출
+    if(e.key === 'Enter') {
+      this.handleCreate();
     }
-    return (
-      <Fragment>
-        <div style={style}>
-          {
-            1 + 1 === 2
-              ? ('맞아 ')
-              : ('틀려')
-          }
-          {
-            (() =>{
-              if(name === '리랴릭서') return (<div className="App">리랴릭서가맞다</div>);
-              if(name === '리리리리') return ('땡');  
-            })()
-          }
-        </div>
-        <div className="App">
-          <input type='text' value={name}/>
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to React</h1>
-          </header>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
-        </div>
-      </Fragment>
-    );
+  }
+
+  render() {
+    const { input, todos } = this.state;
+    const {
+      handleChange,
+      handleCreate,
+      handleKeyPress
+    } = this;
+    return(
+      <TodoListTemplate form={(
+        <Form
+          value={input}
+          onKeyPress={handleKeyPress}
+          onChange={handleChange}
+          onCreate={handleCreate}
+        />
+      )}>
+        <TodoItemList todos={todos}/>
+      </TodoListTemplate>
+    )
   }
 }
 
