@@ -8,7 +8,7 @@ class App extends Component {
 
   id = 3 // 이미 0,1,2 가 존재해? 그래서 3?
 
-  (...)
+  // (...);
 
   handleToggle = (id) => {
     const {todos} = this.state;
